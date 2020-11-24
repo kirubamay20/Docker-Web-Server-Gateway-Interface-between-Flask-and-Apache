@@ -1,0 +1,25 @@
+  
+FROM continumio/anaconda3:4.4.0
+MAINTAINER UNP, https://unp.education
+#COPY ./flask_demo/usr/local/python/
+EXPOSE 7000
+RUN apt-get update && apt-get install -y apache2\
+  apache2-dev \
+  vim \
+ && apt-get clean \
+ && apt-get aotoremove \
+ && rm -rf /var/lib/apt/lists/*
+ 
+WORKDIR /var/www/flask_prediction/
+COPY ./flask_predict.wsgi /var/www/flask_predict/flask_predict.wsgi
+COPY ./flask_demo /var/www/flask_predict/
+RUN pip install -r requirements.txt 
+RUN /opt/conda/bin/mod_wsgi_express install_module
+RUN mod_wsgi-express setup-server flask_predict.wsgi --port=8000 \
+   --user www-data --group www-data \
+   --server-root=/etc/mod_wsgi-express-80
+CMD /etc/mod_wsgi-express-80/apachetl start -D FOREGROUND
+
+
+#RUN python -m nltk.downloader averaged_tagger_perceptron
+#cmd python flask_prediction.py
