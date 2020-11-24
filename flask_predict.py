@@ -4,7 +4,7 @@ from flasgger import Swagger
 import pandas as pd
 import numpy as np
 
-with open('*/breast_cancer_rf.pkl', 'rb') as model_file:
+with open('*/diabetes_rf.pkl', 'rb') as model_file:
   model=pickle.load(model_file)
 
 app1=Flask(__name__)
