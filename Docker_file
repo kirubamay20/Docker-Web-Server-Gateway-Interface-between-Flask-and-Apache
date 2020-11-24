@@ -1,0 +1,9 @@
+  
+FROM continumio/anaconda3:4.4.0
+MAINTAINER UNP, https://unp.education
+COPY ./flask_demo/usr/local/python/
+EXPOSE 5000
+WORKDIR /content/sample_data/
+RUN pip install -r requirements.txt 
+RUN python -m nltk.downloader averaged_tagger_perceptron
+cmd python flask_prediction.py
